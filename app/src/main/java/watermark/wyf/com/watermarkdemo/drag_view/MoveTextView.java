@@ -1,4 +1,4 @@
-package watermark.wyf.com.watermarkdemo;
+package watermark.wyf.com.watermarkdemo.drag_view;
 
 
 import android.content.Context;

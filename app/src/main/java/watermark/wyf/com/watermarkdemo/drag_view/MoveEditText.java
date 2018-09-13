@@ -1,4 +1,4 @@
-package watermark.wyf.com.watermarkdemo;
+package watermark.wyf.com.watermarkdemo.drag_view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -11,6 +11,8 @@ import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import watermark.wyf.com.watermarkdemo.R;
 
 public class MoveEditText extends FrameLayout {
     private int lastX;

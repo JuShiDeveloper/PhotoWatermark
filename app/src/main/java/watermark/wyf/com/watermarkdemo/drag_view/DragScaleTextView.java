@@ -1,4 +1,4 @@
-package watermark.wyf.com.watermarkdemo;
+package watermark.wyf.com.watermarkdemo.drag_view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,6 +7,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import watermark.wyf.com.watermarkdemo.R;
 
 /**
  * 贺卡中可拖动、缩放显示文字的控件

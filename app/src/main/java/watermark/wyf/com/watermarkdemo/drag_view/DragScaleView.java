@@ -1,4 +1,4 @@
-package watermark.wyf.com.watermarkdemo;
+package watermark.wyf.com.watermarkdemo.drag_view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,8 +13,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import watermark.wyf.com.watermarkdemo.R;
+
 /**
- * 显示艺术体，可拖动/缩放的view
+ * 可拖动/缩放显示图片的view
  */
 public class DragScaleView extends AppCompatImageView implements View.OnTouchListener {
     protected int screenWidth;
