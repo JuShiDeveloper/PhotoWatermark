@@ -4,9 +4,19 @@
         <attr name="textSize" format="dimension" />
         <attr name="textColor" format="color" />
         <attr name="text" format="string" />
+        <attr name="focusableInTouchMode" format="boolean" />
+        <attr name="focusable" format="boolean" />
+        <attr name="shadowX" format="float" />
+        <attr name="shadowY" format="float" />
+        <attr name="shadowRadius" format="float" />
+        <attr name="shadowColor" format="color" />
+        <attr name="bottomLineHintColor" format="color"/>
+        <attr name="bottomLineColor" format="color"/>
+        <attr name="bottomLineHeight" format="float"/>
+        <attr name="showBottomLine" format="boolean"/>
     </declare-styleable>
 
-    <declare-styleable name="greeting_cards_DragScaleTextView">
-        <attr name="greeting_cards_enabled_scale" format="boolean" />
+    <declare-styleable name="DragScaleTextView">
+        <attr name="enabled_scale" format="boolean" />
     </declare-styleable>
 </resources>

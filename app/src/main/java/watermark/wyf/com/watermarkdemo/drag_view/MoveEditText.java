@@ -2,23 +2,37 @@ package watermark.wyf.com.watermarkdemo.drag_view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import java.lang.reflect.Field;
 
 import watermark.wyf.com.watermarkdemo.R;
 
+/**
+ * @author JuShi
+ * Create Time：2018/9/14
+ */
 public class MoveEditText extends FrameLayout {
     private int lastX;
     private int lastY;
     private InnerEditText editText;
     private int parentWidth, parentHeight;
+    private boolean showBottomLine;
 
     public MoveEditText(@NonNull Context context) {
         this(context, null);
@@ -35,16 +49,57 @@ public class MoveEditText extends FrameLayout {
 
     private void initialize(AttributeSet attrs) {
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.MoveEditText);
-        float textSize = array.getDimensionPixelSize(R.styleable.MoveEditText_textSize, 12);
+        float textSize = array.getDimensionPixelSize(R.styleable.MoveEditText_textSize, 13);
         int textColor = array.getColor(R.styleable.MoveEditText_textColor, Color.BLACK);
         String text = array.getString(R.styleable.MoveEditText_text);
+        boolean focusable = array.getBoolean(R.styleable.MoveEditText_focusable, true);
+        boolean touchMode = array.getBoolean(R.styleable.MoveEditText_focusableInTouchMode, true);
+        float shadowRadius = array.getFloat(R.styleable.MoveEditText_shadowRadius, 0f);
+        float shadowX = array.getFloat(R.styleable.MoveEditText_shadowX, 0f);
+        float shadowY = array.getFloat(R.styleable.MoveEditText_shadowY, 0f);
+        int shadowColor = array.getColor(R.styleable.MoveEditText_shadowColor, Color.GRAY);
+        final int bottomLineColor = array.getColor(R.styleable.MoveEditText_bottomLineColor, Color.BLUE);
+        final int bottomLineHintColor = array.getColor(R.styleable.MoveEditText_bottomLineHintColor, Color.GRAY);
+        float bottomLineHeight = array.getFloat(R.styleable.MoveEditText_bottomLineHeight, 5);
+        showBottomLine = array.getBoolean(R.styleable.MoveEditText_showBottomLine, false);
         array.recycle();
         editText = new InnerEditText(getContext());
-        editText.setTextColor(textColor);
-        editText.setTextSize(textSize);
-        editText.setText(text);
-        editText.setBackground(null);
+        setTextColor(textColor);
+        setTextSize(textSize);
+        setText(text);
+        setFocusable(focusable);
+        setFocusableInTouchMode(touchMode);
+        setShadowLayer(shadowRadius, shadowX, shadowY, shadowColor);
+        setBackground(null);
+        editText.setBottomLineHintColor(bottomLineHintColor);
+        editText.setBottomLineHeight(bottomLineHeight);
+        editText.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    editText.setBottomLineColor(bottomLineColor);
+                } else {
+                    editText.setBottomLineHintColor(bottomLineHintColor);
+                }
+            }
+        });
         addView(editText);
+    }
+
+    public void setShowBottomLine(boolean isShow) {
+        this.showBottomLine = isShow;
+    }
+
+    public void setBackground(Drawable background) {
+        editText.setBackground(background);
+    }
+
+    public void setBackgroundColor(int color) {
+        editText.setBackgroundColor(color);
+    }
+
+    public void setBackgroundResource(int resId) {
+        editText.setBackgroundResource(resId);
     }
 
     public void setText(String text) {
@@ -53,6 +108,58 @@ public class MoveEditText extends FrameLayout {
 
     public void setTextColor(int color) {
         editText.setTextColor(color);
+    }
+
+    public String getText() {
+        return editText.getText().toString();
+    }
+
+    public void setFocusableInTouchMode(boolean touchMode) {
+        editText.setFocusableInTouchMode(touchMode);
+    }
+
+    public void setFocusable(boolean focusable) {
+        editText.setFocusable(focusable);
+    }
+
+    public int getCurrentTextColor() {
+        return editText.getCurrentTextColor();
+    }
+
+    public void setTextSize(float textSize) {
+        editText.setTextSize(textSize);
+    }
+
+    public float getTextSize() {
+        return editText.getTextSize();
+    }
+
+    public void setAlpha(float alpha) {
+        editText.setAlpha(alpha);
+    }
+
+    public float getAlpha() {
+        return editText.getAlpha();
+    }
+
+    public void setTypeface(Typeface tf) {
+        editText.setTypeface(tf);
+    }
+
+    public Typeface getTypeface() {
+        return editText.getTypeface();
+    }
+
+    public void setShadowLayer(float radius, float dx, float dy, int color) {
+        editText.setShadowLayer(radius, dx, dy, color);
+    }
+
+    public void setGravity(int gravity) {
+        editText.setGravity(gravity);
+    }
+
+    public int getGraivty() {
+        return editText.getGravity();
     }
 
     @Override
@@ -91,17 +198,31 @@ public class MoveEditText extends FrameLayout {
 
     private class InnerEditText extends AppCompatEditText {
         private int downX, downY;
+        private Paint paint;
 
         public InnerEditText(Context context) {
-            super(context, null);
+            super(context);
+            initialize();
         }
 
         public InnerEditText(Context context, AttributeSet attrs) {
             super(context, attrs, 0);
+            initialize();
         }
 
         public InnerEditText(Context context, AttributeSet attrs, int defStyleAttr) {
             super(context, attrs, defStyleAttr);
+            initialize();
+        }
+
+        private void initialize() {
+            initPaint();
+        }
+
+        private void initPaint() {
+            paint = new Paint();
+            paint.setAntiAlias(true);
+            paint.setStyle(Paint.Style.STROKE);
         }
 
         @Override
@@ -126,7 +247,33 @@ public class MoveEditText extends FrameLayout {
             return super.dispatchTouchEvent(event);
         }
 
-//        @Override
+        @Override
+        protected void onDraw(Canvas canvas) {
+            super.onDraw(canvas);
+//            canvas.drawLine(0,0,getWidth() - 20,0,paint);
+//            canvas.drawLine(0,0,0,getHeight() - 20,paint);
+            if (showBottomLine) {
+                //画底部的横线
+                canvas.drawLine(5, getHeight() - 30, getWidth() - 5, getHeight() - 30, paint);
+            }
+        }
+
+        public void setBottomLineColor(int color) {
+            paint.setColor(color);
+            invalidate();
+        }
+
+        public void setBottomLineHintColor(int color) {
+            paint.setColor(color);
+            invalidate();
+        }
+
+        public void setBottomLineHeight(float height) {
+            paint.setStrokeWidth(height);
+        }
+
+
+        //        @Override
 //        protected void onSelectionChanged(int selStart, int selEnd) {
 //            super.onSelectionChanged(selStart, selEnd);
 //            if (selStart == selEnd) {
@@ -134,4 +281,5 @@ public class MoveEditText extends FrameLayout {
 //            }
 //        }
     }
+
 }

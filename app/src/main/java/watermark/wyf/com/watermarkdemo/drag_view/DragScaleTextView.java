@@ -46,8 +46,8 @@ public class DragScaleTextView extends AppCompatTextView implements View.OnTouch
 
 
     private void initAttr(Context context, AttributeSet attrs, int defStyle) {
-        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.greeting_cards_DragScaleTextView);
-        enabledScale = attributes.getBoolean(R.styleable.greeting_cards_DragScaleTextView_greeting_cards_enabled_scale, false);
+        TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.DragScaleTextView);
+        enabledScale = attributes.getBoolean(R.styleable.DragScaleTextView_enabled_scale, false);
     }
 
     /**

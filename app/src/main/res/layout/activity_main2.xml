@@ -6,14 +6,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
+    android:background="@color/c_80929292"
+    android:gravity="center"
     tools:context=".Main2Activity">
 
     <watermark.wyf.com.watermarkdemo.drag_view.MoveEditText
         android:id="@+id/MoveEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:focusable="true"
+        app:focusableInTouchMode="true"
+        app:shadowColor="@color/colorAccent"
+        app:shadowRadius="10"
+        app:shadowX="8"
+        app:shadowY="5"
         app:text="MoveEditText"
-        app:textColor="@color/colorAccent"
-        app:textSize="15sp" />
+        app:textColor="@color/colorPrimaryDark"
+        app:textSize="36px"
+        app:bottomLineColor="@color/colorPrimary"
+        app:bottomLineHintColor="@color/c_80929292"
+        app:bottomLineHeight="5"
+        app:showBottomLine="true"/>
 
 </LinearLayout>
