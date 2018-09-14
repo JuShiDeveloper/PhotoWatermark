@@ -33,6 +33,18 @@ public class MoveEditText extends FrameLayout {
     private InnerEditText editText;
     private int parentWidth, parentHeight;
     private boolean showBottomLine;
+    private float textSize;
+    private int textColor;
+    private String text;
+    private boolean focusable;
+    private boolean touchMode;
+    private float shadowRadius;
+    private float shadowX;
+    private float shadowY;
+    private int shadowColor;
+    private int bottomLineColor;
+    private int bottomLineHintColor;
+    private float bottomLineHeight;
 
     public MoveEditText(@NonNull Context context) {
         this(context, null);
@@ -48,24 +60,32 @@ public class MoveEditText extends FrameLayout {
     }
 
     private void initialize(AttributeSet attrs) {
+        initAttrs(attrs);
+        initEditText();
+    }
+
+    private void initAttrs(AttributeSet attrs) {
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.MoveEditText);
-        float textSize = array.getDimensionPixelSize(R.styleable.MoveEditText_textSize, 13);
-        int textColor = array.getColor(R.styleable.MoveEditText_textColor, Color.BLACK);
-        String text = array.getString(R.styleable.MoveEditText_text);
-        boolean focusable = array.getBoolean(R.styleable.MoveEditText_focusable, true);
-        boolean touchMode = array.getBoolean(R.styleable.MoveEditText_focusableInTouchMode, true);
-        float shadowRadius = array.getFloat(R.styleable.MoveEditText_shadowRadius, 0f);
-        float shadowX = array.getFloat(R.styleable.MoveEditText_shadowX, 0f);
-        float shadowY = array.getFloat(R.styleable.MoveEditText_shadowY, 0f);
-        int shadowColor = array.getColor(R.styleable.MoveEditText_shadowColor, Color.GRAY);
-        final int bottomLineColor = array.getColor(R.styleable.MoveEditText_bottomLineColor, Color.BLUE);
-        final int bottomLineHintColor = array.getColor(R.styleable.MoveEditText_bottomLineHintColor, Color.GRAY);
-        float bottomLineHeight = array.getFloat(R.styleable.MoveEditText_bottomLineHeight, 5);
+        textSize = array.getDimensionPixelSize(R.styleable.MoveEditText_textSize, 13);
+        textColor = array.getColor(R.styleable.MoveEditText_textColor, Color.BLACK);
+        text = array.getString(R.styleable.MoveEditText_text);
+        focusable = array.getBoolean(R.styleable.MoveEditText_focusable, true);
+        touchMode = array.getBoolean(R.styleable.MoveEditText_focusableInTouchMode, true);
+        shadowRadius = array.getFloat(R.styleable.MoveEditText_shadowRadius, 0f);
+        shadowX = array.getFloat(R.styleable.MoveEditText_shadowX, 0f);
+        shadowY = array.getFloat(R.styleable.MoveEditText_shadowY, 0f);
+        shadowColor = array.getColor(R.styleable.MoveEditText_shadowColor, Color.GRAY);
+        bottomLineColor = array.getColor(R.styleable.MoveEditText_bottomLineColor, Color.BLUE);
+        bottomLineHintColor = array.getColor(R.styleable.MoveEditText_bottomLineHintColor, Color.GRAY);
+        bottomLineHeight = array.getFloat(R.styleable.MoveEditText_bottomLineHeight, 5);
         showBottomLine = array.getBoolean(R.styleable.MoveEditText_showBottomLine, false);
         array.recycle();
+    }
+
+    private void initEditText() {
         editText = new InnerEditText(getContext());
         setTextColor(textColor);
-        setTextSize(textSize);
+        setTextSize(textSize / 2);
         setText(text);
         setFocusable(focusable);
         setFocusableInTouchMode(touchMode);

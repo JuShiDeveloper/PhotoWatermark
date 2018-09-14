@@ -22,7 +22,7 @@
         app:shadowY="5"
         app:text="MoveEditText"
         app:textColor="@color/colorPrimaryDark"
-        app:textSize="36px"
+        app:textSize="30sp"
         app:bottomLineColor="@color/colorPrimary"
         app:bottomLineHintColor="@color/c_80929292"
         app:bottomLineHeight="5"
